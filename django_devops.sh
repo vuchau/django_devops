@@ -103,10 +103,11 @@ django_do_install() {
 	rm ./django_devops.sh
 
 	echo "=> Install requirements libs"
-	pip install -r requirements.txt
+	sudo pip install -r requirements.txt
 
-	echo "=> Start new project information"
-	cookiecutter https://github.com/thuongdinh/cookiecutter-django-tastypie.git
+	# TODO fix issue here
+	# echo "=> Start new project information"
+	# cookiecutter https://github.com/thuongdinh/cookiecutter-django-tastypie.git
 
 	echo "=> Finished, Refer README.md to continue steps"
 	django_reset
