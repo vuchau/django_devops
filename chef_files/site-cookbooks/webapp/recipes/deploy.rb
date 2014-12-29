@@ -11,12 +11,19 @@ git_ssh_wrapper = "/home/#{git_user}/git_ssh_wrapper.sh"
 # The user home directory.
 git_user_dir = "/home/#{git_user}"
 
-# The location where the app will be checked out.
+# this only a location where locate repos
+# we will link app to other place
+repo_dir = "/home/#{git_user}/repos/#{app_name}"
+repo_app_dir = "/home/#{git_user}/repos/#{app_name}/#{app_name}"
 app_dir = "/home/#{git_user}/#{app_name}"
 
+# The location where the app will be checked out (just a link)
+link repo_app_dir do
+  to app_dir
+end
 
 # Sychronize latest source code to a local directory on the server.
-git app_dir do
+git repo_dir do
     repository git_repo_url
     revision git_repo_branch
 
@@ -55,7 +62,5 @@ script "Install Requirements" do
     sudo pip install -r #{app_dir}/requirements.txt \
         --allow-external mysql-connector-python \
         --allow-external python-geohash
-    cd #{app_dir}
-    sudo python setup.py develop
     EOH
 end
