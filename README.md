@@ -21,7 +21,7 @@
 ### Init project structure
 
 	mkdir <project_name> && cd <project_name>
-    curl https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.0/django_devops.sh | bash
+    curl https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.1/django_devops.sh | bash
     cookiecutter https://github.com/thuongdinh/cookiecutter-django-tastypie.git
 
 ### Install needed gem
