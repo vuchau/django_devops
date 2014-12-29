@@ -8,9 +8,9 @@ server {
     rewrite ^(.*) http://<%= @domain %>$1 permanent;
 }
 
+<% if @http_supported %>
 server {
-    listen 80 default_server;
-    listen 443;
+    listen <%= @port %> default_server;
     server_name <%= @domain %>;
 
     # deny all and then allow all explicitly where necessary
@@ -24,15 +24,13 @@ server {
         alias <%= @app_home %>/<%= @app_name %>/media/favicon.ico;
     }
 
-
-
     location ^~ /admin_media {
         allow all;
         alias <%= @env_home %>/lib/python2.7/site-packages/django/contrib/admin/media/;
     }
 
     location / {
-        access_log /var/log/nginx/access.log;
+        access_log <%= @nginx_log_dir %>/<%= @app_name %>.access.log;
         allow all;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -54,4 +52,25 @@ server {
         deny all;
    }
 }
+<% end %>
 
+<% if @https_supported %>
+server {
+    listen <%= @https_port %>;
+
+    ssl on;
+    ssl_certificate <%= @https_crt %>;
+    ssl_certificate_key <%= @https_key %>;
+
+    server_name admin.wav-app.com;
+    access_log <%= @nginx_log_dir %>/<%= @app_name %>.access.log;
+    error_log <%= @nginx_log_dir %>/<%= @app_name %>.error.log;
+
+    location / {
+        if (!-f $request_filename) {
+            proxy_pass http://127.0.0.1:<%= @port %>;
+            break;
+        }
+    }
+}
+<% end %>

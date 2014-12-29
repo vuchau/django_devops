@@ -1,0 +1,12 @@
+#!/bin/bash
+
+exec sudo gunicorn \
+  -k gevent -b 0.0.0.0:<%= @port %> \
+  --name "<%= @name %>" \
+  --workers <%= @workers %> \
+  --user=<%= @user %> \
+  --group=<%= @group %> \
+  <%= @group_name %> \
+  --error-logfile /home/<%= @user %>/logs/<%= @name %>_errors.log \
+  --access-logfile /home/<%= @user %>/logs/<%= @name %>_access.log \
+  --log-level "info"
