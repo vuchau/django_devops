@@ -1,0 +1,11 @@
+{
+    "name": "redis",
+    "run_list": [
+        "recipe[apt]",
+        "recipe[redisio]",
+        "recipe[redisio::enable]"
+    ],
+    "override_attributes": {
+    },
+    "json_class": "Chef::Role"
+}

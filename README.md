@@ -15,6 +15,7 @@
  - pip
  - vagrant
  - ruby (gem)
+ - xcode command line (Mac OS users)
 
 ## Usage
 
@@ -26,7 +27,7 @@
 
 ### Install needed gem
 
-	gem bundle
+	bundle
 
 ### Update chef configuration
 

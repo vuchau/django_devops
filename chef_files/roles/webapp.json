@@ -1,0 +1,18 @@
+{
+	"name": "webapp",
+	"run_list": [
+		"recipe[apt]",
+		"recipe[python]",
+		"recipe[nginx]",
+		"recipe[supervisor]",
+		"recipe[webapp]",
+		"recipe[webapp::deploy]",
+		"recipe[webapp::web]"
+	],
+	"override_attributes": {
+		"nginx": {
+			"default_site_enabled": false
+		}
+	},
+	"json_class": "Chef::Role"
+}
