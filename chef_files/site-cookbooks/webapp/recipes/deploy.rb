@@ -22,6 +22,7 @@ link repo_app_dir do
   to app_dir
 end
 
+
 # Sychronize latest source code to a local directory on the server.
 git repo_dir do
     repository git_repo_url
