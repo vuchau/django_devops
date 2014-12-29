@@ -10,6 +10,7 @@ webapp[:deploy_uid] = 9001
 # Must override this for real project
 webapp[:repo_url] = ""
 webapp[:repo_branch] = "develop"
+webapp[:git_deploy] = false
 
 # Web App Info
 webapp[:domain] = "webapp"

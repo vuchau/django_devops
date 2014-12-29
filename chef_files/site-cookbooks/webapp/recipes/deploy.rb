@@ -17,14 +17,9 @@ repo_dir = "/home/#{git_user}/repos/#{app_name}"
 repo_app_dir = "/home/#{git_user}/repos/#{app_name}/#{app_name}"
 app_dir = "/home/#{git_user}/#{app_name}"
 
-# The location where the app will be checked out (just a link)
-link repo_app_dir do
-  to app_dir
-end
-
-
 # Sychronize latest source code to a local directory on the server.
 git repo_dir do
+	only_if { node['webapp']['git_deploy'] }
     repository git_repo_url
     revision git_repo_branch
 
@@ -38,6 +33,10 @@ git repo_dir do
     notifies :restart, 'service[supervisor]'
 end
 
+# The location where the app will be checked out (just a link)
+link repo_app_dir do
+  to app_dir
+end
 
 # Generate local settings for web-admin app
 template "#{app_dir}/local_settings.py" do
