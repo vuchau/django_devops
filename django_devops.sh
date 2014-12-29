@@ -57,19 +57,19 @@ django_download() {
 
 install_from_git() {
 	if [ -d "$DJANGO_DEVOPS_DIR/.git" ]; then
-		echo "=> ddevops is already installed in $DJANGO_DEVOPS_DIR, trying to update"
-		printf "\r=> "
-		cd "$DJANGO_DEVOPS_DIR" && (git fetch 2> /dev/null || {
-			echo >&2 "Failed to update ddevops, run 'git fetch' in $DJANGO_DEVOPS_DIR yourself." && exit 1
-		})
-	else
-		# Cloning to $DJANGO_DEVOPS_DIR
-		echo "=> Downloading django_devops from git to '$DJANGO_DEVOPS_DIR'"
-		printf "\r=> "
-		mkdir -p "$DJANGO_DEVOPS_DIR"
-		git clone "$(django_source "git")" "$DJANGO_DEVOPS_DIR"
+		rm -rf $DJANGO_DEVOPS_DIR
 	fi
+
+	# Cloning to $DJANGO_DEVOPS_DIR
+	# always clean clone is not a good idea
+	# will fix later
+	echo "=> Downloading django_devops from git to '$DJANGO_DEVOPS_DIR'"
+	printf "\r=> "
+	mkdir -p "$DJANGO_DEVOPS_DIR"
+	git clone "$(django_source "git")" "$DJANGO_DEVOPS_DIR"
+
 	cd "$DJANGO_DEVOPS_DIR" && git checkout --quiet v0.1.0 && git branch --quiet -D master >/dev/null 2>&1
+
 	return
 }
 
