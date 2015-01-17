@@ -1,0 +1,48 @@
+{
+	"name": "vagrant",
+	"run_list": [
+		"recipe[apt]",
+		"recipe[python]",
+		"recipe[nginx]",
+		"recipe[supervisor]",
+		"recipe[redisio]",
+        "recipe[redisio::enable]",
+        "recipe[webapp::database]",
+        "recipe[webapp]",
+		"recipe[webapp::web]"
+	],
+	"override_attributes": {
+		"nginx": {
+			"default_site_enabled": false
+		},
+		"postgresql": {
+			"config": {
+				"listen_addresses": "*"
+			},
+			"config_pgtune": {
+				"db_type": "web",
+				"tune_sysctl": true
+			},
+			"password": {
+				"django_dev": "django_dev"
+			},
+			"db_name": "django_dev",
+			"pg_hba": [{
+				"comment": "# EC2 internal access",
+				"type": "host",
+				"db": "all",
+				"user": "django_dev",
+				"addr": "0.0.0.0/0",
+				"method": "md5"
+			}]
+		},
+		"build_essential": {
+			"compiletime": true
+		},
+		"sysctl": {
+			"conf_dir": "/etc/sysctl.d",
+			"allow_sysctl_conf": true
+		}
+	},
+	"json_class": "Chef::Role"
+}
