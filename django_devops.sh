@@ -105,6 +105,10 @@ django_do_install() {
 	echo "=> Install requirements libs"
 	sudo pip install -r requirements.txt
 
+	echo "=> Install requirements vagrant plugin"
+	vagrant plugin install vagrant-berkshelf --plugin-version 2.0.1
+
+
 	# TODO fix issue here
 	# echo "=> Start new project information"
 	# cookiecutter https://github.com/thuongdinh/cookiecutter-django-tastypie.git
