@@ -27,9 +27,9 @@ django_source() {
 		return 0
 	fi
 	if [ "_$DJANGO_METHOD" = "_script" ]; then
-		DJANGO_SOURCE="https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.1/django_devops.sh"
+		DJANGO_SOURCE="https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.2/django_devops.sh"
 	elif [ "_$DJANGO_METHOD" = "_script-ddevops-exec" ]; then
-		DJANGO_SOURCE="https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.1/django_devops-exec"
+		DJANGO_SOURCE="https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.2/django_devops-exec"
 	elif [ "_$DJANGO_METHOD" = "_git" ] || [ -z "$DJANGO_METHOD" ]; then
 		DJANGO_SOURCE="https://github.com/thuongdinh/django_devops.git"
 	else
@@ -68,7 +68,7 @@ install_from_git() {
 	mkdir -p "$DJANGO_DEVOPS_DIR"
 	git clone "$(django_source "git")" "$DJANGO_DEVOPS_DIR"
 
-	cd "$DJANGO_DEVOPS_DIR" && git checkout --quiet v0.1.1 && git branch --quiet -D master >/dev/null 2>&1
+	cd "$DJANGO_DEVOPS_DIR" && git checkout --quiet v0.1.2 && git branch --quiet -D master >/dev/null 2>&1
 
 	return
 }
