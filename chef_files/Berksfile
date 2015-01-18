@@ -21,3 +21,5 @@ cookbook 'sysctl', '~> 0.6.2'
 cookbook 'redisio', '~> 2.2.4'
 cookbook 'ssh-wrapper', '~> 0.0.3'
 cookbook 'postgresql', '~> 3.4.14'
+
+cookbook 'webapp', path: './site-cookbooks/webapp'

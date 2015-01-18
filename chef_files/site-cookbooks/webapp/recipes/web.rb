@@ -5,6 +5,7 @@ git_group = node[:webapp][:deploy_group]
 git_venv = "/home/#{git_user}/venv"
 
 # The location where the app will be checked out.
+app_name = node[:webapp][:app_name]
 app_dir = "/home/#{git_user}/#{app_name}"
 
 directory "/home/#{git_user}/logs" do
@@ -51,7 +52,7 @@ template "#{node['nginx']['dir']}/sites-available/django-web" do
         :env_home => git_venv,
         :http_supported => node[:webapp][:http_supported],
         :https_supported => node[:webapp][:https_supported],
-        :https_supported => node[:webapp][:https_port]
+        :https_port => node[:webapp][:https_port]
     )
 
     # Notifies nginx to reload if the flare definition file changed
@@ -62,4 +63,3 @@ end
 nginx_site 'django-web' do
     enable true
 end
-

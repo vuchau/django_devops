@@ -24,7 +24,7 @@
 				"tune_sysctl": true
 			},
 			"password": {
-				"django_dev": "django_dev"
+				"postgres": "django_dev"
 			},
 			"db_name": "django_dev",
 			"pg_hba": [{

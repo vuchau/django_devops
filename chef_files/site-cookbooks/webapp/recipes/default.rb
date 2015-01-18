@@ -6,6 +6,7 @@ git_ssh_wrapper = "/home/#{git_user}/git_ssh_wrapper.sh"
 git_venv = "/home/#{git_user}/venv"
 
 # The location where the app will be checked out.
+app_name = node[:webapp][:app_name]
 app_dir = "/home/#{git_user}/#{app_name}"
 
 # Install git package for code checkout
@@ -43,14 +44,16 @@ end
 
 # Makes the id_rsa file for authenticating with github. This key should has already
 # been registered with github account.
-cookbook_file "/home/#{git_user}/.ssh/id_rsa" do
-    source 'id_rsa'
-    owner git_user
-    group git_group
+if node[:webapp][:git_deploy]
+	cookbook_file "/home/#{git_user}/.ssh/id_rsa" do
+	    source 'id_rsa'
+	    owner git_user
+	    group git_group
 
-    # Only owner has read permission to this key
-    mode '0400'
-    action :create
+	    # Only owner has read permission to this key
+	    mode '0400'
+	    action :create
+	end
 end
 
 # Generate a wrapper to execute git command without

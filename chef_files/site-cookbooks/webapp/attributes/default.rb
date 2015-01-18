@@ -22,5 +22,9 @@ webapp[:https_supported] = false
 webapp[:http_port] = "80"
 webapp[:https_port] = "443"
 
+# Database
+webapp[:db_user] = "django_dev"
+webapp[:db_password] = "django_dev"
+
 # Disable the default nginx site
 default['nginx']['default_site_enabled'] = false

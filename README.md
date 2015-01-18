@@ -16,13 +16,14 @@
  - vagrant
  - ruby (gem)
  - xcode command line (Mac OS users)
+ - chef-dk (https://downloads.chef.io/chef-dk/)
 
 ## Usage
 
 ### Init project structure
 
 	mkdir <project_name> && cd <project_name>
-    curl https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.1/django_devops.sh | bash
+    curl https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.3/django_devops.sh | bash
     cookiecutter https://github.com/thuongdinh/cookiecutter-django-tastypie.git
 
 ### Install needed gem
@@ -38,3 +39,9 @@ Update chef configuration inside chef-files/roles if needed
 	vagrant up
 	vagrant ssh
 
+## Trouble setting
+
+1. Could not determine Berks version
+
+	Install chefdk
+	export PATH=/opt/chefdk/bin:$PATH #/opt/chefdk/bin needs to be present before your RBENV bits.

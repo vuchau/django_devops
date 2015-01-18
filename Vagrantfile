@@ -21,14 +21,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# from the host machine for development.
 	# config.vm.synced_folder "<your_django_project>", "/home/deploy/webapp_django"
 
+	config.berkshelf.enabled = true
+	config.berkshelf.berksfile_path = "chef_files/Berksfile"
+
 	config.vm.provision "chef_solo" do |chef|
 		chef.cookbooks_path = ["chef_files/cookbooks", "chef_files/site-cookbooks"]
 		chef.environments_path = "chef_files/environments"
 		chef.roles_path = "chef_files/roles"
 		chef.data_bags_path = "chef_files/data_bags"
 		chef.environment = "development"
-
-		config.berkshelf.enabled = true
 
 		# Updates system & install chef-dk software so that we can
 		# develop and test chef recipes in this box.

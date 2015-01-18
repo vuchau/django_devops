@@ -4,21 +4,33 @@ include_recipe "postgresql::client"
 include_recipe "postgresql::server"
 include_recipe "postgresql::config_pgtune"
 include_recipe "database"
+include_recipe "database::postgresql"
 
 
 # create our application database
-
-postgresql_connection_info = {
+conn_info = {
     :host      => '127.0.0.1',
     :port      => 5432,
     :username  => 'postgres',
     :password  => node['postgresql']['password']['postgres']
 }
 
-database node["postgresql"]["db_name"] do
-  connection postgresql_connection_info
-  provider   Chef::Provider::Database::Postgresql
+postgresql_database_user node["webapp"]["db_user"] do
+  connection conn_info
+  password node["webapp"]["db_password"]
   action :create
+end
+
+postgresql_database node["postgresql"]["db_name"] do
+  connection conn_info
+  action :create
+end
+
+postgresql_database_user node["webapp"]["db_user"] do
+  connection conn_info
+  database_name node["postgresql"]["db_name"]
+  privileges [:all]
+  action :grant
 end
 
 # config_pgtune doesn't bump up the shmmax/shmall, meaning postgres can't be restarted
