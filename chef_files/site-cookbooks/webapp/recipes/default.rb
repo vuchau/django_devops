@@ -21,7 +21,6 @@ group git_group do
     action :create
 end
 
-
 user git_user do
     comment "Github Deploy user"
     shell "/bin/bash"
@@ -30,46 +29,6 @@ user git_user do
     supports :manage_home => true
     uid   node[:webapp][:deploy_uid]
     action :create
-end
-
-# Create a directory to hold the id_rsa file.
-directory "/home/#{git_user}/.ssh" do
-  owner git_user
-  group git_group
-
-  # Only owner can write to this directory
-  mode '0755'
-  action :create
-end
-
-# Makes the id_rsa file for authenticating with github. This key should has already
-# been registered with github account.
-if node[:webapp][:git_deploy]
-	cookbook_file "/home/#{git_user}/.ssh/id_rsa" do
-	    source 'id_rsa'
-	    owner git_user
-	    group git_group
-
-	    # Only owner has read permission to this key
-	    mode '0400'
-	    action :create
-	end
-end
-
-# Generate a wrapper to execute git command without
-# being asked for confirm github as a known host.
-template git_ssh_wrapper do
-    source "git_ssh_wrapper.sh.erb"
-    owner git_user
-    group git_group
-
-    # Only owner can write
-    # Others can execute
-    mode '0755'
-
-    variables(
-        :deploy_user => git_user
-    )
 end
 
 python_virtualenv git_venv do

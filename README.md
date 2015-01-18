@@ -10,6 +10,7 @@
  - Vagrant
  - AWS deployment
 
+
 ## Constraints
  - python (> 2.7)
  - pip
@@ -17,6 +18,7 @@
  - ruby (gem)
  - xcode command line (Mac OS users)
  - chef-dk (https://downloads.chef.io/chef-dk/)
+
 
 ## Usage
 
@@ -39,7 +41,13 @@ Update chef configuration inside chef-files/roles if needed
 	vagrant up
 	vagrant ssh
 
-## Trouble setting
+
+## Deployment
+
+// TODO
+
+
+## Troubleshooting
 
 1. Could not determine Berks version
 

@@ -2,11 +2,13 @@ upstream <%= @domain %> {
     server unix:/tmp/gunicorn_<%= @domain %>.sock;
 }
 
+<% if @rewrite_domain %>
 #Rewrite www.<%= @domain %> to <%= @domain %>
 server {
     server_name  www.<%= @domain %>;
     rewrite ^(.*) http://<%= @domain %>$1 permanent;
 }
+<% end %>
 
 <% if @http_supported %>
 server {

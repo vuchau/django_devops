@@ -14,6 +14,7 @@ webapp[:git_deploy] = false
 
 # Web App Info
 webapp[:domain] = "webapp"
+webapp[:rewrite_domain] = false
 webapp[:app_name] = "webapp_django" # should replace name here
 webapp[:port] = "9191"
 webapp[:workers] = "2"
