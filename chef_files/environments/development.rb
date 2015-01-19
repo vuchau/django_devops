@@ -1,9 +1,6 @@
 name            "development"
 description     "Development Environment"
 
-# Specific cookbook version
-cookbook "webapp", "= 0.1.0"
-
 override_attributes(
 	"webapp" => {
 		"repo_url" => "",
