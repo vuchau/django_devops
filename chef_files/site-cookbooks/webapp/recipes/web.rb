@@ -52,7 +52,7 @@ template "#{node['nginx']['dir']}/sites-available/django-web" do
         :env_home => git_venv,
         :http_supported => node[:webapp][:http_supported],
         :https_supported => node[:webapp][:https_supported],
-        :https_port => node[:webapp][:https_port]
+        :https_port => node[:webapp][:https_port],
         :rewrite_domain => node[:webapp][:rewrite_domain]
     )
 
