@@ -1,9 +1,9 @@
-# Settings for the web admin/api application
-# ------------------------------------------
+# Settings for the web application
+# --------------------------------
 webapp = default[:webapp]
 
-webapp[:deploy_user] = "deploy"
-webapp[:deploy_group] = "deploy"
+webapp[:deploy_user] = "ubuntu"
+webapp[:deploy_group] = "ubuntu"
 webapp[:deploy_uid] = 9001
 
 # The flare app git repository
@@ -15,7 +15,7 @@ webapp[:git_deploy] = false
 # Web App Info
 webapp[:domain] = "webapp"
 webapp[:rewrite_domain] = false
-webapp[:app_name] = "webapp_django" # should replace name here
+webapp[:app_name] = "todos"
 webapp[:port] = "9191"
 webapp[:workers] = "2"
 webapp[:http_supported] = true

@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Uncomment this file if you want to sync the actual source code
 	# from the host machine for development.
-	# config.vm.synced_folder "<your_django_project>", "/home/deploy/webapp_django"
+	# config.vm.synced_folder "app_name", "/home/vagrant/<app_name>"
 
 	config.berkshelf.enabled = true
 	config.berkshelf.berksfile_path = "chef_files/Berksfile"

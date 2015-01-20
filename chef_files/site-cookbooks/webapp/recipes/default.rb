@@ -19,6 +19,7 @@ end
 # and deploy to a local repository.
 group git_group do
     action :create
+    not_if { ::File.exists?("/home/#{git_user}")}
 end
 
 user git_user do
@@ -29,10 +30,12 @@ user git_user do
     supports :manage_home => true
     uid   node[:webapp][:deploy_uid]
     action :create
+    not_if { ::File.exists?("/home/#{git_user}")}
 end
 
 python_virtualenv git_venv do
     owner git_user
     group git_group
     action :create
+    not_if { ::File.exists?("/home/#{git_user}/venv")}
 end

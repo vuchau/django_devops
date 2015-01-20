@@ -8,8 +8,9 @@
 		"recipe[redisio]",
         "recipe[redisio::enable]",
         "recipe[webapp::database]",
-        "recipe[webapp]",
-		"recipe[webapp::web]"
+		"recipe[webapp]",
+		"recipe[webapp::web]",
+		"recipe[webapp::setup_env]"
 	],
 	"override_attributes": {
 		"nginx": {
@@ -42,6 +43,10 @@
 		"sysctl": {
 			"conf_dir": "/etc/sysctl.d",
 			"allow_sysctl_conf": true
+		},
+		"webapp": {
+			"deploy_user": "vagrant",
+			"deploy_group": "vagrant"
 		}
 	},
 	"json_class": "Chef::Role"

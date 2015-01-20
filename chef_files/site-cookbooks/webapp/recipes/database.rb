@@ -19,11 +19,13 @@ postgresql_database_user node["webapp"]["db_user"] do
   connection conn_info
   password node["webapp"]["db_password"]
   action :create
+  not_if { `sudo -u postgres psql -tAc \"SELECT * FROM pg_roles WHERE rolname='#{node['webapp']['db_user']}'\" | wc -l`.chomp == "1" }
 end
 
 postgresql_database node["postgresql"]["db_name"] do
   connection conn_info
   action :create
+  not_if { `sudo -u postgres psql -tAc \"SELECT * FROM pg_database WHERE datname='#{node['postgresql']['db_name']}'\" | wc -l`.chomp == "1" }
 end
 
 postgresql_database_user node["webapp"]["db_user"] do
@@ -31,6 +33,7 @@ postgresql_database_user node["webapp"]["db_user"] do
   database_name node["postgresql"]["db_name"]
   privileges [:all]
   action :grant
+  not_if { `sudo -u postgres psql -tAc \"SELECT * FROM pg_database WHERE datname='#{node['postgresql']['db_name']}'\" | wc -l`.chomp == "1" }
 end
 
 # config_pgtune doesn't bump up the shmmax/shmall, meaning postgres can't be restarted

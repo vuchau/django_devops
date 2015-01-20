@@ -7,7 +7,8 @@
 		"recipe[supervisor]",
 		"recipe[webapp]",
 		"recipe[webapp::deploy]",
-		"recipe[webapp::web]"
+		"recipe[webapp::web]",
+		"recipe[webapp::setup_env]"
 	],
 	"override_attributes": {
 		"nginx": {
