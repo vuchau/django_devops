@@ -1,5 +1,5 @@
 upstream <%= @domain %> {
-    server unix:/tmp/gunicorn_<%= @domain %>.sock;
+    server <%= @bind_sock_path %>;
 }
 
 <% if @rewrite_domain %>

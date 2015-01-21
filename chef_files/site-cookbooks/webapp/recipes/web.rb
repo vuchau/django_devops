@@ -10,6 +10,8 @@ git_venv = "/home/#{git_user}/venv"
 # The location where the app will be checked out.
 app_name = node[:webapp][:app_name]
 app_dir = "/home/#{git_user}/#{app_name}"
+gunicorn_app_path = "#{app_dir}/#{app_name}"
+gunicorn_env = "config.settings.#{node.chef_environment}"
 
 directory "/home/#{git_user}/logs" do
   owner git_user
@@ -29,7 +31,12 @@ template "/home/#{git_user}/web_run.sh" do
         :user => git_user,
         :group => git_group,
         :name => node[:webapp][:app_name],
-        :worker => node[:webapp][:workers]
+        :workers => node[:webapp][:workers],
+        :application_wsgi => node[:webapp][:application_wsgi],
+        :env => gunicorn_env,
+        :app_path => gunicorn_app_path,
+        :bind_sock_path => node[:webapp][:gunicorn][:bind_sock_path],
+        :bind_sock => node[:webapp][:gunicorn][:bind_sock]
     )
 end
 
@@ -56,7 +63,9 @@ template "#{node['nginx']['dir']}/sites-available/django-web" do
         :http_supported => node[:webapp][:http_supported],
         :https_supported => node[:webapp][:https_supported],
         :https_port => node[:webapp][:https_port],
-        :rewrite_domain => node[:webapp][:rewrite_domain]
+        :rewrite_domain => node[:webapp][:rewrite_domain],
+        :bind_sock_path => node[:webapp][:gunicorn][:bind_sock_path],
+        :bind_sock => node[:webapp][:gunicorn][:bind_sock]
     )
 
     # Notifies nginx to reload if the flare definition file changed

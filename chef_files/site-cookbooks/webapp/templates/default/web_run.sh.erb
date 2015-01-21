@@ -1,12 +1,19 @@
 #!/bin/bash
 
 exec sudo gunicorn \
-  -k gevent -b 0.0.0.0:<%= @port %> \
+  -k gevent \
+<% if @bind_sock %>
+  -b <%= @bind_sock_path %> \
+<% else %>
+  -b 0.0.0.0:<%= @port %> \
+<% end %>
+  --chdir <%= @app_path %> \
+  --env DJANGO_SETTINGS_MODULE=<%= @env %> \
   --name "<%= @name %>" \
   --workers <%= @workers %> \
   --user=<%= @user %> \
   --group=<%= @group %> \
-  <%= @group_name %> \
+  <%= @application_wsgi %> \
   --error-logfile /home/<%= @user %>/logs/<%= @name %>_errors.log \
   --access-logfile /home/<%= @user %>/logs/<%= @name %>_access.log \
   --log-level "info"

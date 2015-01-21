@@ -22,6 +22,13 @@ webapp[:http_supported] = true
 webapp[:https_supported] = false
 webapp[:http_port] = "80"
 webapp[:https_port] = "443"
+webapp[:application_wsgi] = "config.wsgi:application"
+
+# Gunicorn config
+# TODO: not support bind_sock = false now
+# please don't update this value
+webapp[:gunicorn][:bind_sock] = true
+webapp[:gunicorn][:bind_sock_path] = "unix:/tmp/gunicorn_#{webapp[:domain]}.sock"
 
 # Database
 webapp[:db_user] = "django_dev"
@@ -33,3 +40,4 @@ default['nginx']['default_site_enabled'] = false
 # Default override allow_sysctl_conf
 # all attribute will be written to sysctl.conf file
 default['sysctl']['allow_sysctl_conf'] = true
+
