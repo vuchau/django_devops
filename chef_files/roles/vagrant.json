@@ -10,7 +10,8 @@
         "recipe[webapp::database]",
 		"recipe[webapp]",
 		"recipe[webapp::web]",
-		"recipe[webapp::setup_env]"
+		"recipe[webapp::setup_env]",
+		"recipe[webapp::deploy]"
 	],
 	"override_attributes": {
 		"nginx": {

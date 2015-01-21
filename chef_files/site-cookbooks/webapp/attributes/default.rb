@@ -29,3 +29,7 @@ webapp[:db_password] = "django_dev"
 
 # Disable the default nginx site
 default['nginx']['default_site_enabled'] = false
+
+# Default override allow_sysctl_conf
+# all attribute will be written to sysctl.conf file
+default['sysctl']['allow_sysctl_conf'] = true

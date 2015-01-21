@@ -74,33 +74,43 @@ git repo_dir do
 end
 
 # The location where the app will be checked out (just a link)
-link repo_app_dir do
-  to app_dir
+# link repo_app_dir do
+#   to app_dir
+#   link_type :symbolic
+#   action :create
+# end
+# TODO: find official way to do this instead of use
+# ln command like this, it made recipe is not
+# cross os
+script "Create django link" do
+    interpreter "bash"
+    code <<-EOH
+    ln -s #{repo_app_dir} #{app_dir}
+    EOH
+    not_if { ::File.exists?("#{app_dir}")}
 end
 
 # Generate local settings for web-admin app
-template "#{app_dir}/local_settings.py" do
-    source 'local_settings.py.erb'
-    user git_user
-    group git_group
-    mode   '0644'
-end
-
-
-# Install g++ package, required by python-geohash
-apt_package "g++" do
-    action :install
-end
+# template "#{app_dir}/local_settings.py" do
+#     source 'local_settings.py.erb'
+#     user git_user
+#     group git_group
+#     mode   '0644'
+# end
 
 # Generate a script that automatically install all python requirements using pip.
-# Need to hard code this a bit for now. Will find a way to do this better once I
-# know more about the code base. The extra option `--allow-external mysql-connector-python`
-# looks weird.
 script "Install Requirements" do
     interpreter "bash"
     code <<-EOH
-    sudo pip install -r #{app_dir}/requirements.txt \
-        --allow-external mysql-connector-python \
-        --allow-external python-geohash
+    #{git_user_dir}/venv/bin/pip install -r #{app_dir}/requirements/#{node.chef_environment}.txt
     EOH
+end
+
+# Migrate database
+execute "#{git_user_dir}/venv/bin/python manage.py syncdb --noinput" do
+  	cwd "#{app_dir}/#{app_name}"
+end
+
+execute "#{git_user_dir}/venv/bin/python manage.py migrate --noinput" do
+  	cwd "#{app_dir}/#{app_name}"
 end

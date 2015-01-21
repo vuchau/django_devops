@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# Uncomment this file if you want to sync the actual source code
 	# from the host machine for development.
-	# config.vm.synced_folder "app_name", "/home/vagrant/<app_name>"
+	# config.vm.synced_folder "./", "/home/vagrant/repos/<app_name>"
 
 	config.berkshelf.enabled = true
 	config.berkshelf.berksfile_path = "chef_files/Berksfile"
@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		chef.environments_path = "chef_files/environments"
 		chef.roles_path = "chef_files/roles"
 		chef.data_bags_path = "chef_files/data_bags"
-		chef.environment = "development"
+		chef.environment = "dev"
 
 		# Updates system & install chef-dk software so that we can
 		# develop and test chef recipes in this box.

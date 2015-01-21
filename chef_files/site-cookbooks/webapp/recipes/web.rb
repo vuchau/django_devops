@@ -1,3 +1,6 @@
+include_recipe "postgresql::ruby"
+include_recipe "postgresql::client"
+
 git_user = node[:webapp][:deploy_user]
 git_group = node[:webapp][:deploy_group]
 
@@ -46,7 +49,7 @@ template "#{node['nginx']['dir']}/sites-available/django-web" do
 
     variables(
         :domain => node[:webapp][:domain],
-        :port => node[:webapp][:port],
+        :port => node[:webapp][:http_port],
         :app_home => app_dir,
         :app_name => node[:webapp][:app_name],
         :env_home => git_venv,

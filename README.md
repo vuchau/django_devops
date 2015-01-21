@@ -44,15 +44,16 @@ Update project name inside Vagrantfile (line 22) & uncomment that line
 
 	vagrant up
 	vagrant ssh
-	# switch to deploy user (note: deploy is default user of webapp recipes
-	# let use correct user name if you overrided the default)
-	sudo su - deploy
 
 
 ## Deployment
 
 // TODO
 
+## Folder structure
+
+1. **/home/ubuntu/<app_name>**: django project folder
+2. **/home/ubuntu/bin**: helpers bash script
 
 ## Troubleshooting
 
