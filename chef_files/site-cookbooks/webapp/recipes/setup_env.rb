@@ -16,3 +16,5 @@ script "Update .bashrc" do
 echo 'source /home/#{git_user}/venv/bin/activate' >> /home/#{git_user}/.bashrc
 EOH
 end
+
+

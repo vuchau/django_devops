@@ -1,7 +1,12 @@
 name "postgresql"
 description "Postgresql Database"
 
-settings = Chef::EncryptedDataBagItem.load("passwords", "postgresql")
+if node[:databag][:encrypted]
+	settings = Chef::EncryptedDataBagItem.load("passwords", "postgresql")
+else
+	settings = data_bag_item("passwords", "postgresql")
+end
+
 postgres_pass = settings["POSTGRES_PASS"]
 db_name = settings["DATABASE_NAME"]
 

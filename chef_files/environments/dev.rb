@@ -6,6 +6,9 @@ override_attributes(
 		"repo_url" => "",
 		"repo_branch" => "develop",
 		"git_deploy" => false,
+		"databag" => {
+			"encrypted" => false
+		}
 	},
 
 	"nginx" => {

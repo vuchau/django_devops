@@ -15,7 +15,7 @@ webapp[:git_deploy] = false
 # Web App Info
 webapp[:domain] = "webapp"
 webapp[:rewrite_domain] = false
-webapp[:app_name] = "todos"
+webapp[:app_name] = ""
 webapp[:port] = "9191"
 webapp[:workers] = "2"
 webapp[:http_supported] = true
@@ -33,6 +33,14 @@ webapp[:gunicorn][:bind_sock_path] = "unix:/tmp/gunicorn_#{webapp[:domain]}.sock
 # Database
 webapp[:db_user] = "django_dev"
 webapp[:db_password] = "django_dev"
+
+# Data Bag
+
+# this attribute indicate should use encrypted
+# to get databag or not
+# Override this inside enviroment files if
+# want to change it
+default[:databag][:encrypted] = false
 
 # Disable the default nginx site
 default['nginx']['default_site_enabled'] = false
