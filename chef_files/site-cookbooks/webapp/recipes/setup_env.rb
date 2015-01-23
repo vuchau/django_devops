@@ -23,8 +23,6 @@ envs_databag_key = "#{node.chef_environment}_envs"
 envs = data_bag(envs_databag_key)
 export_envs = Array.new
 
-Chef::Log.info("Databag key #{envs_databag_key}")
-
 envs.each_with_index do |var,i|
   if node[:databag][:encrypted]
 	env = Chef::EncryptedDataBagItem.load(envs_databag_key, var)
@@ -34,8 +32,6 @@ envs.each_with_index do |var,i|
 
   export_envs[i] = "os.environ.setdefault(\"#{env['KEY']}\", \"#{env['VALUE']}\")"
 end
-
-Chef::Log.info("Databag lengh #{export_envs.length}")
 
 # Export local_envs if there are any env
 if export_envs.length > 0
