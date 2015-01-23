@@ -11,7 +11,8 @@
 		"recipe[webapp]",
 		"recipe[webapp::setup_env]",
 		"recipe[webapp::web]",
-		"recipe[webapp::deploy]"
+		"recipe[webapp::deploy]",
+		"recipe[webapp::celery]"
 	],
 	"override_attributes": {
 		"nginx": {

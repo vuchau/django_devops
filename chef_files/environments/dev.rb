@@ -8,6 +8,9 @@ override_attributes(
 		"git_deploy" => false,
 		"databag" => {
 			"encrypted" => false
+		},
+		"supervisor" => {
+			"enable_services" => false
 		}
 	},
 

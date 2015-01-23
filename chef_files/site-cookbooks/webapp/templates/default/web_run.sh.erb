@@ -1,7 +1,6 @@
 #!/bin/bash
 
-exec sudo gunicorn \
-  -k gevent \
+exec sudo <%= @env_path %>/bin/gunicorn \
 <% if @bind_sock %>
   -b <%= @bind_sock_path %> \
 <% else %>

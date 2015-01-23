@@ -36,15 +36,19 @@ template "/home/#{git_user}/web_run.sh" do
         :env => gunicorn_env,
         :app_path => gunicorn_app_path,
         :bind_sock_path => node[:webapp][:gunicorn][:bind_sock_path],
-        :bind_sock => node[:webapp][:gunicorn][:bind_sock]
+        :bind_sock => node[:webapp][:gunicorn][:bind_sock],
+        :env_path => git_venv
     )
 end
 
 # Generate a supervisor service entry and autostart it
-supervisor_service "django-web" do
-    command "/home/#{git_user}/web_run.sh"
-    autostart true
-    user 'root'
+if node[:webapp][:supervisor][:enable_services]
+	supervisor_service "django-web" do
+	    command "/home/#{git_user}/web_run.sh"
+	    autostart       node[:webapp][:supervisor][:autostart]
+	    autorestart     node[:webapp][:supervisor][:autorestart]
+	    user 'root'
+	end
 end
 
 # Generate a site configuration

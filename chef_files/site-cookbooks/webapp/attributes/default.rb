@@ -23,24 +23,44 @@ webapp[:https_supported] = false
 webapp[:http_port] = "80"
 webapp[:https_port] = "443"
 webapp[:application_wsgi] = "config.wsgi:application"
+webapp[:application_wsgi] = "config.wsgi:application"
 
 # Gunicorn config
 # TODO: not support bind_sock = false now
-# so please don't change this value
+# please don't change this value
 webapp[:gunicorn][:bind_sock] = true
 webapp[:gunicorn][:bind_sock_path] = "unix:/tmp/gunicorn_#{webapp[:domain]}.sock"
 
 # Database
+# --------
 webapp[:db_user] = "django_dev"
 webapp[:db_password] = "django_dev"
 
+# Celery
+# ------
+webapp[:celery][:enable_beat] = true
+webapp[:celery][:app_instance] = "config"
+webapp[:celery][:log_level] = "INFO"
+
+# Supervisor
+# -----------
+
+# create supervisor services or not
+webapp[:supervisor][:enable_services] = true
+webapp[:supervisor][:autostart] = true
+webapp[:supervisor][:autorestart] = true
+
 # Data Bag
+# --------
 
 # this attribute indicate should use encrypted
 # to get databag or not
 # Override this inside enviroment files if
 # want to change it
 default[:databag][:encrypted] = false
+
+# MISC
+# --------
 
 # Disable the default nginx site
 default['nginx']['default_site_enabled'] = false
