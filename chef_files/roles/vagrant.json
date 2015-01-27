@@ -9,9 +9,9 @@
         "recipe[redisio::enable]",
         "recipe[webapp::database]",
 		"recipe[webapp]",
+		"recipe[webapp::deploy]",
 		"recipe[webapp::setup_env]",
 		"recipe[webapp::web]",
-		"recipe[webapp::deploy]",
 		"recipe[webapp::celery]"
 	],
 	"override_attributes": {

@@ -1,12 +1,17 @@
-git_user = node[:webapp][:deploy_user]
-git_group = node[:webapp][:deploy_group]
+# Retry global information from databag
+globals_deploy_users = data_bag_item("globals", "deploy_users")
+globals_deploy_groups = data_bag_item("globals", "deploy_groups")
+globals_webapp_info = data_bag_item("globals", "webapp_info")
+
+git_user = globals_deploy_users[node.chef_environment]
+git_group = globals_deploy_groups[node.chef_environment]
 git_ssh_wrapper = "/home/#{git_user}/git_ssh_wrapper.sh"
 
 # The location where the vitualenv will be located
 git_venv = "/home/#{git_user}/venv"
 
 # The location where the app will be checked out.
-app_name = node[:webapp][:app_name]
+app_name = globals_webapp_info["app_name"]
 app_dir = "/home/#{git_user}/#{app_name}"
 
 # Install git package for code checkout
