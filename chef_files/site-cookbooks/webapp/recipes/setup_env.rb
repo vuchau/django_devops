@@ -23,7 +23,6 @@ envs_databag_key = "#{node.chef_environment}_envs"
 envs = data_bag(envs_databag_key)
 export_envs = Array.new
 
-
 envs.each_with_index do |var,i|
   if node[:databag][:encrypted]
 	env = Chef::EncryptedDataBagItem.load(envs_databag_key, var)
@@ -47,3 +46,26 @@ if export_envs.length > 0
 	end
 end
 
+# Create bash script to restart services base on roles of node
+export_restart_service_commands = Array.new
+if node.recipes.include?("webapp::celery") or node.recipes.include?("webapp::web")
+	export_restart_service_commands.push("supervisorctl reread")
+end
+
+if node.recipes.include?("webapp::web")
+	export_restart_service_commands.push("service nginx restart")
+end
+
+template "/home/#{git_user}/restart_services.sh" do
+    source "restart_services.sh.erb"
+    owner git_user
+    group git_group
+
+    # Only owner can write
+    # Others can execute
+    mode '0755'
+
+    variables(
+        :commands => export_restart_service_commands
+    )
+end

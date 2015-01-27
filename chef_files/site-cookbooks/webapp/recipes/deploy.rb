@@ -69,16 +69,12 @@ git repo_dir do
     # Need to execute the git command in a wrapper to avoid the "known host" issue.
     ssh_wrapper git_ssh_wrapper
     action :sync
-    notifies :reload, 'service[nginx]'
-    notifies :restart, 'service[supervisor]'
+    # TODO: not need reload service here, we will create another bashscript
+    # fro ad-hoc task like this one.
+    # notifies :reload, 'service[nginx]'
+    # notifies :restart, 'service[supervisor]'
 end
 
-# The location where the app will be checked out (just a link)
-# link repo_app_dir do
-#   to app_dir
-#   link_type :symbolic
-#   action :create
-# end
 # TODO: find official way to do this instead of use
 # ln command like this, it made recipe is not
 # cross os
@@ -89,14 +85,6 @@ script "Create django link" do
     EOH
     not_if { ::File.exists?("#{app_dir}")}
 end
-
-# Generate local settings for web-admin app
-# template "#{app_dir}/local_settings.py" do
-#     source 'local_settings.py.erb'
-#     user git_user
-#     group git_group
-#     mode   '0644'
-# end
 
 # Generate a script that automatically install all python requirements using pip.
 script "Install Requirements" do

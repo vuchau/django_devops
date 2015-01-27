@@ -6,9 +6,9 @@
 		"recipe[nginx]",
 		"recipe[supervisor]",
 		"recipe[webapp]",
+		"recipe[webapp::setup_env]",
 		"recipe[webapp::deploy]",
-		"recipe[webapp::celery]",
-		"recipe[webapp::setup_env]"
+		"recipe[webapp::celery]"
 	],
 	"json_class": "Chef::Role"
 }
