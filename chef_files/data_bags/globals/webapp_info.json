@@ -1,0 +1,10 @@
+{
+	"name":"data_bag_item_globals_webapp_info",
+	"json_class":"Chef::DataBagItem",
+	"chef_type":"data_bag_item",
+	"data_bag":"globals",
+	"raw_data":{
+		"id":"webapp_info",
+		"app_name":"todos"
+	}
+}

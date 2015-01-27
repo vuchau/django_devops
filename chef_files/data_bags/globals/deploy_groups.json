@@ -1,0 +1,13 @@
+{
+	"name":"data_bag_item_globals_deploy_groups",
+	"json_class":"Chef::DataBagItem",
+	"chef_type":"data_bag_item",
+	"data_bag":"globals",
+	"raw_data":{
+		"id":"deploy_groups",
+		"dev":"vagrant",
+		"staging":"ubuntu",
+		"uat":"ubuntu",
+		"prod":"ubuntu"
+	}
+}

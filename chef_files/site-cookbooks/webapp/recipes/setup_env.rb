@@ -23,6 +23,7 @@ envs_databag_key = "#{node.chef_environment}_envs"
 envs = data_bag(envs_databag_key)
 export_envs = Array.new
 
+
 envs.each_with_index do |var,i|
   if node[:databag][:encrypted]
 	env = Chef::EncryptedDataBagItem.load(envs_databag_key, var)

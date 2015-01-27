@@ -13,8 +13,8 @@ git_user_dir = "/home/#{git_user}"
 
 # this only a location where locate repos
 # we will link app to other place
-repo_dir = "/home/#{git_user}/repos/#{app_name}"
-repo_app_dir = "/home/#{git_user}/repos/#{app_name}/#{app_name}"
+repo_dir = "/home/#{git_user}/repos/webapp"
+repo_app_dir = "#{repo_dir}/#{app_name}"
 app_dir = "/home/#{git_user}/#{app_name}"
 
 # Makes the id_rsa file for authenticating with github. This key should has already
