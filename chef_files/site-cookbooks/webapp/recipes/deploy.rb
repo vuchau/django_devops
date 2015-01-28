@@ -1,13 +1,12 @@
-# Retry global information from databag
-globals_deploy_users = data_bag_item("globals", "deploy_users")
-globals_deploy_groups = data_bag_item("globals", "deploy_groups")
-globals_webapp_info = data_bag_item("globals", "webapp_info")
+::Chef::Recipe.send(:include, WebappHelpers)
 
-git_user = globals_deploy_users[node.chef_environment]
-git_group = globals_deploy_groups[node.chef_environment]
+# Retry global information from databag
+git_user = git_user()
+git_group = git_group()
+app_name = app_name()
+
 git_repo_url = node[:webapp][:repo_url]
 git_repo_branch = node[:webapp][:repo_branch]
-app_name = globals_webapp_info["app_name"]
 
 # The wrapper script that allow the server to checkout
 # latest code without being blocked by "knownhosts".

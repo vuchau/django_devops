@@ -15,7 +15,7 @@ webapp[:git_deploy] = false
 # Web App Info
 webapp[:domain] = "webapp"
 webapp[:rewrite_domain] = false
-webapp[:app_name] = ""
+webapp[:app_name] = "todos"
 webapp[:port] = "9191"
 webapp[:workers] = "2"
 webapp[:http_supported] = true
