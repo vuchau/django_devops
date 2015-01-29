@@ -1,0 +1,7 @@
+{
+	"name": "allin",
+	"environment": "staging",
+  	"run_list": [
+    	"role[allin]"
+  	]
+}

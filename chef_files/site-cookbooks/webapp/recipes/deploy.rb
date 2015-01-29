@@ -1,9 +1,9 @@
 ::Chef::Recipe.send(:include, WebappHelpers)
 
 # Retry global information from databag
-git_user = git_user()
-git_group = git_group()
-app_name = app_name()
+git_user = get_git_user()
+git_group = get_git_group()
+app_name = get_app_name()
 
 git_repo_url = node[:webapp][:repo_url]
 git_repo_branch = node[:webapp][:repo_branch]
@@ -24,6 +24,15 @@ app_dir = "/home/#{git_user}/#{app_name}"
 # Makes the id_rsa file for authenticating with github. This key should has already
 # been registered with github account.
 if node[:webapp][:git_deploy]
+
+	directory "/home/#{git_user}/repos" do
+	  owner git_user
+	  group git_group
+	  mode '0755'
+	  action :create
+	  not_if { ::File.exists?("/home/#{git_user}/repos")}
+	end
+
 	# Create a directory to hold the id_rsa file.
 	directory "/home/#{git_user}/.ssh" do
 	  owner git_user

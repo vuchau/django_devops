@@ -1,9 +1,9 @@
 ::Chef::Recipe.send(:include, WebappHelpers)
 
 # Retry global information from databag
-git_user = git_user()
-git_group = git_group()
-app_name = app_name()
+git_user = get_git_user()
+git_group = get_git_group()
+app_name = get_app_name()
 
 log_dir = "/home/#{git_user}/logs"
 home_dir = "/home/#{git_user}"
@@ -11,6 +11,7 @@ git_venv = "/home/#{git_user}/venv"
 
 app_dir = "/home/#{git_user}/#{app_name}"
 celery_app_dir = "#{app_dir}/#{app_name}"
+celery_env = "config.settings.#{node.chef_environment}"
 
 # Create a directory to hold the id_rsa file.
 directory log_dir do
@@ -30,7 +31,10 @@ template "#{home_dir}/celery_run.sh" do
         :enable_beat => node[:webapp][:celery][:enable_beat],
         :app_instance => node[:webapp][:celery][:app_instance],
         :log_level => node[:webapp][:celery][:log_level],
-        :env_path => git_venv
+        :env_path => git_venv,
+        :c_force_root => node[:webapp][:celery][:c_force_root],
+        :log_file => "#{log_dir}/celery-app.log",
+        :env => celery_env
     )
 end
 

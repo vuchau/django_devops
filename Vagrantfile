@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		# Updates system & install chef-dk software so that we can
 		# develop and test chef recipes in this box.
-		chef.add_role "vagrant"
+		chef.add_role "allin"
 		chef.json = {}
 	end
 

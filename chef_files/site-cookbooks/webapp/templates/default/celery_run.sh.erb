@@ -1,3 +1,3 @@
 #!/bin/bash
 
-<%= @env_path %>/bin/celery -A <%= @app_instance %> worker --loglevel=<%= @log_level %> <% if @enable_beat %>-B<% end %>
+<% if @c_force_root %>C_FORCE_ROOT=true <% end %>DJANGO_SETTINGS_MODULE=<%= @env %> <%= @env_path %>/bin/celery -A <%= @app_instance %> worker --loglevel=<%= @log_level %> <% if @enable_beat %>-B<% end %> --logfile=<%= @log_file %>

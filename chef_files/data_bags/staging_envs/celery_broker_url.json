@@ -1,0 +1,11 @@
+{
+   "name":"data_bag_item_staging_envs_celery_broker_url",
+   "json_class":"Chef::DataBagItem",
+   "chef_type":"data_bag_item",
+   "data_bag":"staging_envs",
+   "raw_data":{
+      "id":"celery_broker_url",
+      "KEY":"BROKER_URL",
+      "VALUE":"redis://localhost:6379/0"
+   }
+}

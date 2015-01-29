@@ -4,15 +4,15 @@ module WebappHelpers
 		return Chef::DataBagItem.load("globals", databagitem)
 	end
 
-    def git_user()
+    def get_git_user()
     	return globals_databagitem("deploy_users")[node.chef_environment]
     end
 
-    def git_group()
+    def get_git_group()
     	return globals_databagitem("deploy_groups")[node.chef_environment]
     end
 
-    def app_name()
+    def get_app_name()
     	return globals_databagitem("webapp_info")["app_name"]
     end
 

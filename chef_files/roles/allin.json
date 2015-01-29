@@ -45,10 +45,6 @@
 		"sysctl": {
 			"conf_dir": "/etc/sysctl.d",
 			"allow_sysctl_conf": true
-		},
-		"webapp": {
-			"deploy_user": "vagrant",
-			"deploy_group": "vagrant"
 		}
 	},
 	"json_class": "Chef::Role"

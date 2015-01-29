@@ -4,6 +4,7 @@
 # Chef
 .chef/*.pem
 .chef/encrypted_data_bag_secret
+nodes/*.*
 
 # Ruby
 .rake_test_cache
@@ -57,3 +58,7 @@ $RECYCLE.BIN/
 # RSA Key
 id_rsa
 id_rsa.pub
+
+# Python
+*.pyc
+celerybeat-schedule
