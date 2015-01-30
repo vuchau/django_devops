@@ -56,7 +56,8 @@ if node.recipes.include?("webapp::celery") or node.recipes.include?("webapp::web
 end
 
 if node.recipes.include?("webapp::web")
-	export_restart_service_commands.push("service nginx restart")
+	export_restart_service_commands.push("service nginx stop")
+	export_restart_service_commands.push("service nginx start")
 end
 
 template "/home/#{git_user}/restart_services.sh" do
