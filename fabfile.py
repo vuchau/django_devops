@@ -13,14 +13,17 @@ from fabric.api import (
 )
 from fabric.colors import green as _green, yellow as _yellow, red as _red
 from fabric.context_managers import hide, show, lcd
-from config import Config
 import time
 
 # Read global setting from data bag of chef
 # this help sync global env for both chef & fabfile
-env.global_deploy_users = json.load(open("chef_files/data_bags/globals/deploy_users.json"))["raw_data"]
-env.global_deploy_groups = json.load(open("chef_files/data_bags/globals/deploy_groups.json"))["raw_data"]
-env.global_webapp_info = json.load(open("chef_files/data_bags/globals/webapp_info.json"))["raw_data"]
+env.global_deploy_users = json.load(open("./chef_files/data_bags/globals/deploy_users.json"))["raw_data"]
+env.global_deploy_groups = json.load(open("./chef_files/data_bags/globals/deploy_groups.json"))["raw_data"]
+env.global_webapp_info = json.load(open("./chef_files/data_bags/globals/webapp_info.json"))["raw_data"]
+
+# Un-commend below line if you need upload your databag secret file
+# to remote server & replace by your correct path
+# env.encrypted_data_bag_secret_key_path = "./chef_files/.chef/encrypted_data_bag_secret"
 
 # Set default env attributes
 # that help run dev env without run
@@ -225,6 +228,21 @@ def run_chef():
 
 
 @task
+@_setup
+def copy_needed_files():
+    """
+    Copy needed file from local to remote nodes.
+    """
+    print(_yellow("--COPYING NEEDED FILES--"))
+
+    # Copy encrype chef file to default secrect file on server
+    if env.get("encrypted_data_bag_secret_key_path", None):
+        if not exists("/etc/chef"):
+            sudo('mkdir /etc/chef')
+        put(env.encrypted_data_bag_secret_key_path, "/etc/chef/encrypted_data_bag_secret", mode=0600)
+
+
+@task
 def dev():
     """
     Set dev env.
@@ -287,6 +305,17 @@ def backup_db_simple_postgresql(is_download=True):
 
 
 #----- DEPLOYMENT TASKS -------
+
+@task
+@_setup
+def init_node():
+    """
+    Initialize a node server (install chef, cook, copy files ...)
+    """
+    execute(install_chef)
+    execute(copy_needed_files)
+    execute(run_chef)
+
 
 @runs_once
 @task

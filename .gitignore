@@ -2,8 +2,9 @@
 .vagrant
 
 # Chef
-.chef/*.pem
-.chef/encrypted_data_bag_secret
+chef_files/.chef/*.pem
+chef_files/.chef/*.json
+chef_files/.chef/encrypted_data_bag_secret
 nodes/*.*
 
 # Ruby
