@@ -5,10 +5,10 @@
  - Django 1.7
  - Celery
  - Redis (cache + queue)
- - Postgres
+ - Postgresql
  - Chef
  - Vagrant
- - AWS deployment
+ - Server deployment (fabric)
 
 
 ## Constraints
@@ -25,7 +25,7 @@
 ### Init project structure
 
 	mkdir <project_name> && cd <project_name>
-    curl https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.4/django_devops.sh | bash
+    curl https://raw.githubusercontent.com/thuongdinh/django_devops/v0.1.5/django_devops.sh | bash
     cookiecutter https://github.com/thuongdinh/cookiecutter-django-tastypie.git # type your project information
 
 ### Install needed gem
@@ -37,10 +37,10 @@
 Update chef configuration inside chef-files if needed, including:
 	
 1. **update app_name attribute**: chef_files/data_bags/globals/webapp_info.json (note: app_name must be equal with your current django folder that's be create use **cookiecutter** above)
-2. **create new envs folder**: create new env forlder inside chef_files/data_bags & add databag item for any env attribute, pls refer dev_envs for example
+2. **create new envs folder**: create new env forlder inside chef_files/data_bags & add databag item for any env attribute, pls refer to folder dev_envs for example
 
 
-### Vagrant up
+### Development env with Vagrant
 
 	vagrant up
 	vagrant ssh
@@ -55,11 +55,37 @@ Update chef configuration inside chef-files if needed, including:
 4. Create encrypted databag item file: EDITOR=vi knife solo data bag create dev_envs aws_access_key --json-file ~/.chef/aws_key.json --secret-file ~/.chef/encrypted_data_bag_secret
 	After this step, you will see a json file inside data_bags/dev_envs with encrypted content
 5. Let's set value of webapp => databag => encrypted attribute to true (inside your environment file), so chef know should read this data_bag with encrypted method
-6. For deployment, please refer to commends from line 24 to 26 in fabfile.py
+6. For deployment, please refer to commends from line 24 to 26 in fabfile.py & line 6 to 8 in chef_files/.chef/knife.rb
 
 ## Deployment
 
-// TODO
+1. Make sure you workstation can connect to remote servers
+	a. Use key pem: add path to key pem file to each env func in fabfile (staging, prod, uat), ```env.key_filename = <your path> ```
+	b. Add your public rsa key to server 
+2. Create server_config.json file, add server addresses, role to each & create group of servers want to deploy, below is format
+
+	{
+		"django-chef-example": {
+	      	"host": "104.236.238.102",
+	      	"user": "root",
+	      	"node": "allin"
+	  	},
+	  	"dev_servers": ["django-chef-example"]
+	}
+
+3. Init servers with command
+
+	```
+	fab <env> s:<group> init_node
+	```
+
+	with **env** is your env (staging, dev, prod, uat), and group is name of group server e.g. dev_servers
+	This command will install chef, copy needed files & cook nodes. Servers will be ready after this command
+
+4. For next time deployment, run command: ```fab <env> s:<group> deploy```
+
+Use ```fab --list``` to see list of commands can be used.
+
 
 ## Folder structure
 
@@ -69,7 +95,7 @@ Update chef configuration inside chef-files if needed, including:
 2. **backup**: contains backup files (excluse all file in this folder)
 3. **fabfile.py**: deployment scripts
 4. **Vagrantfile**: vagrant configuration
-5. **<app_name>**: django project you created with cookiecutter command
+5. **app_name**: django project you created with cookiecutter command
 6. **requirements.txt**: needed tools for init project 
 
 ### Remote Server
