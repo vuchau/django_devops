@@ -73,7 +73,7 @@ Update chef configuration inside chef-files if needed, including:
 	  	"dev_servers": ["django-chef-example"]
 	}
 3. Init environemnts files, includes requirements.txt & django config.
-	e.g. If you want deploy staging env, create staging.py file inside django_project/config folder & create staging.txt inside requirements.txt
+	e.g. If you want deploy **staging** env, create staging.py file inside django_project/config folder & create staging.txt inside requirements
 3. Init servers with command
 
 	```
