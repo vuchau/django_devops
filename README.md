@@ -30,7 +30,8 @@
 
 ### Install needed gem
 
-	bundle
+	gem install bundler
+	bundle install
 
 ### Update system configuration
 
