@@ -20,6 +20,7 @@ DEPENDENCIES
   supervisor (~> 0.4.12)
   sysctl (~> 0.6.2)
   users (~> 1.7.0)
+  vim (~> 1.1.2)
   webapp
     path: site-cookbooks/webapp
 
@@ -92,6 +93,7 @@ GRAPH
     ohai (>= 0.0.0)
   ulimit (0.3.2)
   users (1.7.0)
+  vim (1.1.2)
   webapp (0.1.0)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)

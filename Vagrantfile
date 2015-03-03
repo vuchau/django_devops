@@ -15,15 +15,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.hostname = "django.local"
 	config.vm.network :private_network, ip: "192.168.33.101"
 
+    # Webapp access
+    config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "forwarded_port", guest: 8001, host: 8001
+
+    # Postgres database access
+    config.vm.network "forwarded_port", guest: 5432, host: 5433
+
 	config.vm.synced_folder "chef_files", "/chef_files"
 
 	# Uncomment this file if you want to sync the actual source code
 	# from the host machine for development.
-	config.vm.synced_folder "./", "/home/vagrant/repos/webapp"
 	config.vm.synced_folder "./backup", "/backup"
+    config.vm.synced_folder "./webapp", "/webapp"
 
 	config.berkshelf.enabled = true
 	config.berkshelf.berksfile_path = "chef_files/Berksfile"
+
+    VAGRANT_JSON = JSON.parse(Pathname(__FILE__).dirname.join('chef_files/nodes', 'vagrant.json').read)
 
 	config.vm.provision "chef_solo" do |chef|
 		chef.cookbooks_path = ["chef_files/cookbooks", "chef_files/site-cookbooks"]
@@ -34,12 +43,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		# Updates system & install chef-dk software so that we can
 		# develop and test chef recipes in this box.
-		chef.add_role "allin"
-		chef.json = {}
+		#chef.add_role "allin"
+        chef.run_list = VAGRANT_JSON.delete('run_list')
+        chef.json = VAGRANT_JSON
 	end
 
 	config.vm.provider :virtualbox do |vb|
 		# This box requires quite a bit of memory
-		vb.customize ["modifyvm", :id, "--memory", "2048"]
+		vb.customize ["modifyvm", :id, "--memory", "1024"]
 	end
 end

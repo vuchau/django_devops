@@ -1,0 +1,8 @@
+{
+    "name": "vagrant",
+    "environment": "dev",
+    "run_list": [
+        "role[base]",
+        "role[local_dev]"
+    ]
+}

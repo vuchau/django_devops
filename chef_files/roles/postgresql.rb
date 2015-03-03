@@ -2,13 +2,15 @@ name "postgresql"
 description "Postgresql Database"
 
 if node[:databag][:encrypted]
-	settings = Chef::EncryptedDataBagItem.load("passwords", "postgresql")
+	db_info = Chef::EncryptedDataBagItem.load("secrets", "database")
 else
-	settings = data_bag_item("passwords", "postgresql")
+	db_info = data_bag_item("secrets", "database")
 end
 
-postgres_pass = settings["POSTGRES_PASS"]
-db_name = settings["DATABASE_NAME"]
+postgres_pass = db_info["POSTGRES_PASS"]
+db_name = db_info["DATABASE_NAME"]
+db_user = db_info["DATABASE_USER"]
+db_pass = db_info["DATABASE_PASS"]
 
 override_attributes(
 	:postgresql => {
@@ -29,8 +31,6 @@ override_attributes(
 	"build_essential" => {"compiletime" => true},
 	:sysctl => {:conf_dir => "/etc/sysctl.d",
 		:allow_sysctl_conf=>true}
-
-
 )
 
 run_list(

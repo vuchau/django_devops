@@ -1,0 +1,18 @@
+{
+    "name": "local_dev",
+    "run_list": [
+        "recipe[webapp::database]",
+        "recipe[webapp::default]"
+    ],
+    "override_attributes": {
+        "postgresql": {
+            "config": {
+                "listen_addresses": "*"
+            },
+            "password": {
+                "postgres": "postgres_pass"
+            }
+        }
+    },
+    "json_class": "Chef::Role"
+}

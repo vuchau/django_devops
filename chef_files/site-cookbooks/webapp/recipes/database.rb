@@ -8,6 +8,15 @@ include_recipe "database"
 include_recipe "database::postgresql"
 
 
+template ("/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf") do
+  source 'pg_hba.conf.erb'
+  owner 'postgres'
+end
+
+service 'postgresql' do
+  action :restart
+end
+
 # create our application database
 conn_info = {
     :host      => '127.0.0.1',
@@ -23,7 +32,7 @@ postgresql_database_user node["webapp"]["db_user"] do
   not_if { `sudo -u postgres psql -tAc \"SELECT * FROM pg_roles WHERE rolname='#{node['webapp']['db_user']}'\" | wc -l`.chomp == "1" }
 end
 
-postgresql_database node["postgresql"]["db_name"] do
+postgresql_database node["webapp"]["db_name"] do
   connection conn_info
   action :create
   not_if { `sudo -u postgres psql -tAc \"SELECT * FROM pg_database WHERE datname='#{node['postgresql']['db_name']}'\" | wc -l`.chomp == "1" }
@@ -31,7 +40,7 @@ end
 
 postgresql_database_user node["webapp"]["db_user"] do
   connection conn_info
-  database_name node["postgresql"]["db_name"]
+  database_name node["webapp"]["db_name"]
   privileges [:all]
   action :grant
   not_if { `sudo -u postgres psql -tAc \"SELECT * FROM pg_database WHERE datname='#{node['postgresql']['db_name']}'\" | wc -l`.chomp == "1" }
